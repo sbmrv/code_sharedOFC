@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const propertyModel = require("../models/property");
+const bookingSchema = require("../models/booking");
 const { validationResult } = require("express-validator");
 
 const addPropertyFunc = async (req, res) => {
@@ -221,7 +222,6 @@ const getOnePropertyCardDetails = async (req, res) => {
     });
   }
 };
-getOnePropertyCardDetails;
 const deletePropertyFunc = async (req, res) => {
   try {
     const { propId } = req.query;
@@ -346,6 +346,53 @@ const updatePropertyFunc = async (req, res) => {
     });
   }
 };
+const bookPropertyFunc = async (req, res) =>{
+  try {
+    // const result = validationResult(req);
+
+    // if (!result.isEmpty()) {
+    //   return res.status(200).json({
+    //     error: true,
+    //     result: result.errors[0],
+    //   });
+    // }
+const {
+  guest_name,
+  ph_number,
+  no_of_guests,
+  start_date,
+  end_date,
+  amount,
+  paid_amount,
+  status,
+} = req.body;
+    const newbooking = new bookingSchema({
+      // ownerID: req.decodedToken.ownerId,
+      guest_name,
+      ph_number,
+      no_of_guests,
+      start_date,
+      end_date,
+      amount,
+      paid_amount,
+      status,
+    });
+    const bookingsave = await newbooking.save();
+
+    if (bookingsave) {
+      res
+        .status(200)
+        .json({ message: "Property booked successfully!", error: false });
+    } else {
+      res.status(200).json({ message: "no data is submitted!", error: true });
+    }
+  } catch (err) {
+    res.status(200).json({
+      message: err.message || "something went wrong in addPropertyFunc",
+      error: true,
+    });
+  }
+}
 module.exports = {
   addPropertyFunc,
   getAllPropertyFunc,
@@ -354,4 +401,5 @@ module.exports = {
   deletePropertyFunc,
   getOnePropertyDetails,
   getOnePropertyCardDetails,
+  bookPropertyFunc,
 };

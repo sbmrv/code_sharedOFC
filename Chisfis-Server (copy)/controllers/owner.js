@@ -190,7 +190,6 @@ const updateOwnerInfoFunc = async (req, res) => {
     });
   }
 };
-
 const updatePasswordFunc = async (req, res) => {
   try {
     const { id } = req.query;
@@ -209,6 +208,7 @@ const updatePasswordFunc = async (req, res) => {
     });
   }
 };
+
 module.exports = {
   ownerSignupFunc,
   ownerLoginFunc,

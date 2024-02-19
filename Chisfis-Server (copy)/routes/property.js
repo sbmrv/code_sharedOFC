@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const { check } = require("express-validator");
 const propertyController = require("../controllers/property");
+const bookPropertyFunc = require("../controllers/property");
 const auth = require("../libs/auth_owner");
 
 const propertyValidate = [
@@ -116,5 +117,10 @@ router.get("/get-property-details", auth, (req, res) => {
 });
 router.get("/get-propertyCard-details", (req, res) => {
   propertyController.getOnePropertyCardDetails(req, res);
+});
+router.post("/book-property",
+// auth, propertyValidate,
+ function (req, res) {
+  propertyController.bookPropertyFunc(req, res);
 });
 module.exports = router;
